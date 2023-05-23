@@ -1,0 +1,26 @@
+{
+  "name": "b-dev",
+  "version": "1.0.0",
+  "description": "A BraceJs Application",
+  "main": "src/index.js",
+  "homepage": "./",
+  "port": 3001,
+  "scripts": {
+    "dev": "brace-js-script dev",
+    "build": "brace-js-script build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+
+    "brace-js-scripts": "^1.2.2",
+    "brace-js": "^1.2.0",
+    "brace-jsx": "file:../brace-js",
+    "brace-router": "file:../brace-router",
+    "utiliti-js": "^2.0.3"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.1"
+  }
+}

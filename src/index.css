@@ -1,0 +1,120 @@
+/*@import "./assets/bootstrap-icons/bootstrap-icons.css";*/
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+   --num-columns:4;
+}
+
+/* Toggle switch */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Toggle switch background */
+.toggle-switch::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  border-radius: 34px;
+  transition: background-color 0.2s;
+}
+
+/* Toggle switch slider */
+.toggle-switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 30px;
+  height: 30px;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+/* Toggle switch on state */
+.toggle-switch-on::before {
+  background-color: #4caf50;
+}
+
+/* Toggle switch on state slider position */
+.toggle-switch-on .toggle-switch-slider {
+  transform: translateX(26px);
+}
+
+/* Toggle switch off state */
+.toggle-switch-off::before {
+  background-color: #feec066e;
+}
+
+/* Toggle switch off state slider position */
+.toggle-switch-off .toggle-switch-slider {
+  transform: translateX(2px);
+}
+
+.is-on {
+  color: white;
+}
+.is-off {
+  color: #121212;
+}
+
+label {
+  font-weight: bold;
+  display: block;
+  font-size: 8px;
+  font-family: 'Montserrat';
+  margin: 3px auto;
+}
+
+input {
+ padding: 4px 6px; 
+ border: 0.8px solid #717171d8;
+ border-radius: 5px;
+ margin: 5px 3px;
+}
+
+button {
+  border-radius: 5px;
+  margin: 5px 3px;
+  background-color: #3088ee;
+  padding: 3px 6px;
+  color: white;
+}
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 20%;
+    z-index: 1;
+    background-color: white;
+    border: 1px solid black;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    resize: both;
+  }
+
+  .dropdown-menu li {
+    padding: 5px;
+    cursor: pointer;
+  }
