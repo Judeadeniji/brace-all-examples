@@ -8,7 +8,8 @@ function useRef(initialValue = '') {
 
 
   const count = createData(0);
-const Counter = ({ xx }) => {
+const Counter = (params) => {
+  alert(JSON.stringify(params))
   console.log("component only renders once");
   
   onMount(() => {

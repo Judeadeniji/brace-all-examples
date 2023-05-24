@@ -1,4 +1,6 @@
-import { createData, onMount } from "brace-jsx";
+import { createData, onMount, Suspense } from "brace-jsx";
+import { navigate } from "brace-jsx/router";
+
 let submitButton;
 let buttonContainer;
 const formState = createData({
@@ -158,7 +160,8 @@ function LoginForm() {
   
   return ( 
   <form class="bg-white border rounded-2xl mx-auto px-4 pt-6 pb-8 mb-4 flex
-  flex-col w-full max-w-sm relative" submit$preventDefault$={() => {}}>
+  flex-col w-full max-w-sm relative" submit$preventDefault$={() =>
+  {navigate("/dashboard/5")}}>
     <div class="mb-4">
       <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
         Username
@@ -194,7 +197,7 @@ function LoginForm() {
       <button
         class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit" bind:this={handleButton}>
-        Sign In
+          Sign In
       </button>
       <a class="inline-block align-baseline font-bold text-sm text-blue-500
       hover:text-blue-800" href="/forgot-password">
@@ -205,5 +208,10 @@ function LoginForm() {
   )
 }
 
+async function FakeData(data) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => resolve(data), 3000)
+  });
+}
 
 export default LoginForm
