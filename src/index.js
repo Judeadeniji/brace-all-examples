@@ -7,10 +7,13 @@ import Counter from "./components/counter";
 import Bulb from "./components/Lighthouse";
 const { getCurrentPath } = Location();
 
-const cPath = createData(getCurrentPath()) 
+const cPath = createData('/') 
 
 // NavLink Component
 function NavLink({ children, to, activeClassName }) {
+  if(getCurrentPath() !== cPath.value) {
+    cPath.set(getCurrentPath());
+  }
   const isActive = cPath.value === to;
 
   return (
