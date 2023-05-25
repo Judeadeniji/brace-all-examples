@@ -1,4 +1,4 @@
-/*@import "./assets/bootstrap-icons/bootstrap-icons.css";*/
+@import "./assets/bootstrap-icons/bootstrap-icons.css";
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
@@ -118,3 +118,26 @@ button {
     padding: 5px;
     cursor: pointer;
   }
+  
+ .loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #6c00f1;
+  animation: glowingLoader 1s infinite;
+  z-index: 9999;
+}
+
+@keyframes glowingLoader {
+  0% {
+    box-shadow: 0 0 5px #9607d4, 0 0 20px #6c00f1;
+  }
+  50% {
+    box-shadow: 0 0 20px #6c00f1, 0 0 50px #6c00f1;
+  }
+  100% {
+    box-shadow: 0 0 5px #6c00f1, 0 0 20px #6c00f1;
+  }
+}

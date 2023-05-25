@@ -1,19 +1,14 @@
 import './index.css'
 import { Mount, createData } from "brace-jsx"
-import { createRouter, RouteOutlet, navigate, Location, Link } from "brace-jsx/router"
-import App from "./App";
-import LoginForm from "./components/login";
-import Counter from "./components/counter";
-import Bulb from "./components/Lighthouse";
+import { createRouter, RouteOutlet, navigate, Location, Link, beforeRoute } from "brace-jsx/router"
 const { getCurrentPath } = Location();
+const cPath = createData('/');
+const showSideBar = createData(false);
 
-const cPath = createData('/') 
 
 // NavLink Component
 function NavLink({ children, to, activeClassName }) {
-  if(getCurrentPath() !== cPath.value) {
-    cPath.set(getCurrentPath());
-  }
+    cPath.set(getCurrentPath(), { silent: true });
   const isActive = cPath.value === to;
 
   return (
@@ -22,10 +17,9 @@ function NavLink({ children, to, activeClassName }) {
         isActive ? activeClassName : "text-gray-600 hover:bg-gray-100"
       }`}
       href={to}
-      click$={(e) => {
+      click$={ async (e) => {
         e.preventDefault();
-        navigate(to);
-        cPath.set(to)
+        await navigate(to);
       }}
     >
       {children}
@@ -34,12 +28,12 @@ function NavLink({ children, to, activeClassName }) {
 }
 
 // Sidebar Component
-const Sidebar = () => {
+const Sidebar = ({ class: className }) => {
   return (
-    <div class="bg-gray-200 h-screen w-1/3">
-      <ul class="py-6 mx-auto">
+    <div class={`bg-gray-200 w-full sm:h-32 md:h-screen md:w-1/3 ${className}`}>
+      <ul class="sm:flex sm:justify-between sm:items-center md:block py-6 mx-auto">
         <li>
-          <NavLink to="/" activeClassName="bg-blue-500 text-white font-bold">
+          <NavLink to="/" activeClassName="bg-orange-500 text-white font-bold">
             <span class="mr-2">
               <svg
                 class="w-5 h-5 fill-current"
@@ -55,7 +49,55 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/account" activeClassName="bg-blue-500 text-white font-bold">
+          <NavLink to="/delayed" activeClassName="bg-orange-500 text-white font-bold">
+            <span class="mr-2">
+              <svg
+                class="w-5 h-5 fill-current"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7.5h2v-5h-2v5zm0 4h2v-2h-2v2z"
+                />
+              </svg>
+            </span>
+            Delayed Route
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/light-dark/sun" activeClassName="bg-orange-500 text-white font-bold">
+            <span class="mr-2">
+              <svg
+                class="w-5 h-5 fill-current"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7.5h2v-5h-2v5zm0 4h2v-2h-2v2z"
+                />
+              </svg>
+            </span>
+            Invalid Route
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/light-dark" activeClassName="bg-orange-500 text-white font-bold">
+            <span class="mr-2">
+              <svg
+                class="w-5 h-5 fill-current"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-7.5h2v-5h-2v5zm0 4h2v-2h-2v2z"
+                />
+              </svg>
+            </span>
+            Example App
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/account" activeClassName="bg-orange-500 text-white font-bold">
             <span class="mr-2">
               <svg
                 class="w-5 h-5 fill-current"
@@ -71,7 +113,7 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/products" activeClassName="bg-blue-500 text-white font-bold">
+          <NavLink to="/products" activeClassName="bg-orange-500 text-white font-bold">
             <span class="mr-2">
               <svg
                 class="w-5 h-5 fill-current"
@@ -89,7 +131,7 @@ const Sidebar = () => {
         <li>
           <NavLink
             to="/products/wears/654"
-            activeClassName="bg-blue-500 text-white font-bold"
+            activeClassName="bg-orange-500 text-white font-bold"
           >
             <span class="mr-2">
               <svg
@@ -106,7 +148,7 @@ const Sidebar = () => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/blog" activeClassName="bg-blue-500 text-white font-bold">
+          <NavLink to="/blog" activeClassName="bg-orange-500 text-white font-bold">
             <span class="mr-2">
               <svg
                 class="w-5 h-5 fill-current"
@@ -124,7 +166,7 @@ const Sidebar = () => {
         <li>
           <NavLink
             to="/this-is-dynamic-route"
-            activeClassName="bg-blue-500 text-white font-bold"
+            activeClassName="bg-orange-500 text-white font-bold"
           >
             <span class="mr-2">
               <svg
@@ -146,144 +188,112 @@ const Sidebar = () => {
   );
 };
 
+const Header = ({ children }) => {
+  return (
+   <header class="w-full sm:mb-1 relative bg-orange-500 md:hidden">
+     <div class="w-full flex justify-end items-center pr-3 py-2">
+      <button class="bg-white rounded-md px-3 py-2 my-auto text-black
+      hover:shadow font-bold" click$={() =>
+      showSideBar.update(show => !show)}>Menu</button>
+     </div>
+      <nav class={showSideBar.value ? "block" : "hidden"}>
+      {children}
+      </nav>
+   </header>
+    )
+}
+
 // Layout Component
 const Layout = () => {
   return (
-    <div class="flex">
-      <Sidebar />
-      <div class="py-6 px-8 flex-1 bg-gray-100">
+    <div class="md:flex">
+      <Header>
+       <Sidebar class="mt-2" />
+      </Header>
+       <Sidebar class="hidden md:block" />
+      <div class="md:px-8 py-6 md:flex-1 h-screen relative">
         <RouteOutlet />
       </div>
     </div>
   );
 };
 
-// DashboardComponent
-const DashboardComponent = () => {
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">Dashboard Component</h1>
-      <p>Welcome to the dashboard! This is the main overview page for your account.</p>
-      <Link title="My Account" to="/account" class="text-blue-500 hover:underline">
-        Go to Dashboard Items
-      </Link>
-    </div>
-  );
-};
+// fake a dynamic import
+ const fakeDynamicImport = async (modulePath) => {
+  // Simulate the asynchronous behavior of a dynamic import
+  await new Promise((resolve) => setTimeout(resolve, 3000));
 
-// DashboardItemComponent
-const DashboardItemComponent = ({ params }) => {
-  const { id } = params;
+  // Simulate the resolved module value
+  const moduleValue = {
+    default: (props) => <h1 key={{}} class="text-4xl font-extrabold mx-3 my-1
+    text-center h-screen">I knew You Waited hard for me</h1>
+  };
 
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">Dashboard Item Component - ID: {id}</h1>
-      <p>This is the detail view of Dashboard Item with ID: {id}. You can view and edit the item's information here.</p>
-      <Link title="Dashboard" to="/" class="text-blue-500 hover:underline">
-        Go back to Dashboard
-      </Link>
-    </div>
-  );
-};
+  return moduleValue;
+}
 
-// ProductsComponent
-const ProductsComponent = () => {
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">Products Component</h1>
-      <p>Explore our wide range of products. Click on a product to view its details.</p>
-      <Link to="/products/category/id" class="text-blue-500 hover:underline">
-        Go to Product Detail
-      </Link>
-    </div>
-  );
-};
+beforeRoute(async ({ resolve }) => {
+  const loader = document.createElement('div');
+  loader.setAttribute('class', 'loader');
+  document.body.appendChild(loader);
 
-// ProductDetailComponent
-const ProductDetailComponent = ({ params }) => {
-  const { category, id } = params;
+  let currentWidth = 0;
+  const targetWidth = window.innerWidth; // Get the width of the viewport
 
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">
-        Product Detail Component - Category: {category}, ID: {id}
-      </h1>
-      <p>This is the detailed view of a product in the {category} category with ID: {id}. Get all the information about the product here.</p>
-      <Link to="/products" class="text-blue-500 hover:underline">
-        View All Products
-      </Link>
-    </div>
-  );
-};
+  const animationDuration = 2000; // Animation duration in milliseconds
+  const animationInterval = 10; // Interval between width increments in milliseconds
+  const increment = targetWidth / (animationDuration / animationInterval); // Calculate the width increment
 
-// BlogComponent
-const BlogComponent = () => {
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">Blog Component</h1>
-      <p>Read the latest blog posts and stay updated with our informative articles.</p>
-      <Link to="/blog/slug" class="text-blue-500 hover:underline">
-        Go to Blog Post
-      </Link>
-    </div>
-  );
-};
+  const animationIntervalId = setInterval(() => {
+    currentWidth += increment;
+    loader.style.width = `${currentWidth}px`;
+  }, animationInterval);
 
-// BlogPostComponent
-const BlogPostComponent = ({ params }) => {
-  const { slug } = params;
+  await new Promise((resolve) => setTimeout(resolve, animationDuration));
+  
+   return () => {
+    clearInterval(animationIntervalId);
+    document.body.removeChild(loader);
+  };
+});
 
-  return (
-    <div key={{}}>
-      <h1 class="text-2xl font-bold">Blog Post Component - Slug: {slug}</h1>
-      <p>This is the blog post with the slug: {slug}. Read and engage with the content.</p>
-      <Link to="/blog" class="text-blue-500 hover:underline">
-        Go back to Blog
-      </Link>
-    </div>
-  );
-};
-
-const DynamicPageComponent = ({ params, ...props }) => {
-  const slug = params['...slug'];
-  return (
-    <div class="py-4" key={{}}>
-      <h1 class="text-2xl font-bold">Dynamic Page Component - Slug: {slug}</h1>
-      <Link to="/" class="text-blue-500 hover:underline">
-        Go to Dashboard
-      </Link>
-    </div>
-  );
-};
 
 const routes = [
   {
     path: "/",
-    component: DashboardComponent,
+    component: () => import(/* webpackPrefetch: true */'./pages/dashboard'),
+  },
+  {
+    path: "/light-dark",
+    component: () => import('./components/Lighthouse'),
   },
   {
     path: "/dashboard/[id]",
-    component: DashboardItemComponent,
+    component: () => import('./pages/dashboard-item'),
   },
   {
     path: "/products",
-    component: ProductsComponent,
+    component: () => import('./pages/products'),
   },
   {
     path: "/products/[category]/[id]",
-    component: ProductDetailComponent,
+    component: () => import('./pages/products-item'),
   },
   {
     path: "/blog",
-    component: BlogComponent,
+    component: () => import('./pages/blog'),
   },
   {
     path: "/blog/[slug]",
-    component: BlogPostComponent,
+    component: () => import('./pages/blog-item'),
   },
   {
     path: "/[...slug]",
-    component: DynamicPageComponent,
+    component: () => import("./App"),
+  },
+  {
+    path: "/delayed",
+    component: () => fakeDynamicImport('./fakePath'),
   },
 ];
 
@@ -291,5 +301,3 @@ createRouter(routes)
 
 Mount(() => <Layout />,
 document.querySelector("#root"));
-
-navigate('/')

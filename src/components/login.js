@@ -41,7 +41,7 @@ const handleInputChange = ({ id, value }) => {
     if (!isValid) {
       errorType = 'emailFormat';
     }
-  } else if (value.length < 6 && id !== 'username') {
+  } else if (value.length < 5 && id !== 'username') {
     isValid = false;
     errorType = 'minLength';
   }
@@ -159,7 +159,7 @@ function LoginForm() {
   }
   
   return ( 
-  <form class="bg-white border rounded-2xl mx-auto px-4 pt-6 pb-8 mb-4 flex
+  <form key="loginForm" class="bg-white border rounded-2xl mx-auto px-4 pt-6 pb-8 mb-4 flex
   flex-col w-full max-w-sm relative" submit$preventDefault$={() =>
   {navigate("/dashboard/5")}}>
     <div class="mb-4">
