@@ -2,11 +2,19 @@
   <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Invest 5k and Pack 5M</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,  maximum-scale=1.0, user-scalable=0" />
+    <script type="text/javascript" charset="utf-8">
+      // On page load or when changing themes, best to add inline in `head` to avoid FOUC
+      if (localStorage.xyzApexTheme === 'dark' || (!('xyzApexTheme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark')
+      } else {
+        document.documentElement.classList.remove('dark')
+      }
+    </script>
+    <title>My Admin Dashboard</title>
   </head>
   <body>
-    <div id="root"></div>
+    <main id="root"></main>
     <noscript>
       JavaScript is Required for this website to run
     </noscript>
