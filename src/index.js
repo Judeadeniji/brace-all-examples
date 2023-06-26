@@ -9,7 +9,7 @@ const showSideBar = createData(false);
 // NavLink Component
 function NavLink({ children, to, activeClassName }) {
     cPath.set(getCurrentPath(), { silent: true });
-  const isActive = cPath.value === to;
+  const isActive = cPath.value.replace('/brace-router', "") === to;
 
   return (
     <a
@@ -232,7 +232,40 @@ const Layout = () => {
   return moduleValue;
 }
 
-beforeRoute(async ({ resolve }) => {
+const blogPost = {
+  title: '10 Reasons Why you should Use BraceJs',
+  date: new Date(),
+  author: 'Apex',
+  content: <p>Blog post</p> /*(
+    <div>
+    <p class="mb-4">BraceJs is a modern client-side JavaScript framework that offers developers great flexibility, high speed, and an easy syntax. In this blog post, we will explore ten compelling reasons why you should consider using BraceJs for your next web development project.</p>
+
+    <ol class="list-decimal list-inside mb-4">
+      <li class="mb-2">Easy Learning Curve: BraceJs has a gentle learning curve, making it accessible for both beginners and experienced developers.</li>
+      <li class="mb-2">Lightweight and Fast: BraceJs is designed to be lightweight, resulting in faster load times and improved performance.</li>
+      <li class="mb-2">Component-Based Architecture: BraceJs follows a component-based architecture, enabling modular and reusable code development.</li>
+      <li class="mb-2">Reactive Data Binding: BraceJs provides reactive data binding, allowing automatic UI updates when data changes.</li>
+      <li class="mb-2">Rich UI Libraries: BraceJs offers a wide range of UI libraries and components, making it easier to create beautiful and interactive user interfaces.</li>
+      <li class="mb-2">Extensive Documentation: BraceJs has comprehensive documentation, tutorials, and examples, making it easier to get started and find answers to your questions.</li>
+      <li class="mb-2">Flexibility and Customization: BraceJs provides a flexible and customizable development environment, allowing you to tailor the framework to your specific needs.</li>
+      <li class="mb-2">Robust Ecosystem: BraceJs has a thriving ecosystem with a large community and a rich collection of plugins and extensions.</li>
+      <li class="mb-2">Excellent Performance: BraceJs is known for its excellent performance, ensuring smooth and responsive web applications.</li>
+      <li class="mb-2">Active Development and Support: BraceJs is actively maintained and supported, with regular updates and bug fixes.</li>
+    </ol>
+
+    <p class="mb-4">BraceJs combines the best of both React and Svelte. It provides a familiar component-based architecture similar to React, allowing you to build reusable and composable UI components. However, BraceJs introduces a syntax inspired by Svelte, which offers a more concise and intuitive way to define components and handle reactive data bindings.</p>
+
+    <p class="mb-4">By combining the power of React and the simplicity of Svelte-like syntax, BraceJs empowers developers to create highly performant and maintainable web applications.</p>
+
+    <p class="mb-4">Whether you're a beginner or an experienced developer, BraceJs can be an excellent choice for building modern web applications. Its flexibility, speed, and easy syntax make it a powerful tool in your development arsenal.</p>
+    </div>
+  )*/,
+  meta: {}
+};
+
+
+
+beforeRoute(async (props) => {
   const loader = document.createElement('div');
   loader.setAttribute('class', 'loader');
   document.body.appendChild(loader);
@@ -249,18 +282,21 @@ beforeRoute(async ({ resolve }) => {
     loader.style.width = `${currentWidth}px`;
   }, animationInterval);
 
-  await new Promise((resolve) => setTimeout(resolve, animationDuration));
+  await new Promise((resolve) => setTimeout(resolve, animationDuration+50));
   
-   return () => {
+    props.resolve(() => {
     clearInterval(animationIntervalId);
     document.body.removeChild(loader);
-  };
+    if (props.nextRoute.includes("/blog/")) {
+      return blogPost
+    }
+  });
 });
 
 
 const routes = [
   {
-    path: "/",
+    path: "",
     component: () => import(/* webpackPrefetch: true */'./pages/dashboard'),
   },
   {
@@ -270,6 +306,10 @@ const routes = [
   {
     path: "/dashboard/[id]",
     component: () => import('./pages/dashboard-item'),
+  },
+  {
+    path: "/task",
+    component: () => import('./pages/task'),
   },
   {
     path: "/products",
@@ -297,7 +337,7 @@ const routes = [
   },
 ];
 
-createRouter(routes)
+createRouter(routes, "/brace-router")
 
 Mount(() => <Layout />,
 document.querySelector("#root"));

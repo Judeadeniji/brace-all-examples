@@ -21,6 +21,7 @@ function Bulb() {
     }
   }
  
+    console.log(isOn)
   return (
     <div key={{}} className="md:absolute md:top-0 md:left-0 md:right-0 md:bottom-0 flex flex-col items-center justify-center h-screen transition-all duration-200"
     style:background-color={isOn.value ? "#121212" : "#feec066e"}

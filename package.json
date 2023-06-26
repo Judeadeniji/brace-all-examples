@@ -14,13 +14,11 @@
   "license": "ISC",
   "dependencies": {
     "brace-js": "^1.2.0",
-    "brace-js-scripts-dev": "^1.2.2",
-    "brace-js-scripts": "file:../brace-js-scripts",
-    "brace-jsx": "file:../brace-js",
-    "brace-router": "file:../brace-router",
-    "utiliti-js": "^2.0.3"
+    "brace-js-scripts": "^1.2.23",
+    "brace-jsx": "file:../brace-js"
   },
   "devDependencies": {
+    "utiliti-js": "^2.0.336",
     "tailwindcss": "^3.3.1"
   }
 }
